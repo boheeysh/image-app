@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 캐리커처 스튜디오</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <h1 class="logo">🎨 AI 캐리커처 스튜디오</h1>
+      <p class="subtitle">사진 한 장으로 캐리커처, 애니메이션, 영화 포스터를 만들어 보세요</p>
+    </div>
+  </header>
+
+  <main class="container main">
+    <!-- 1. 사진 업로드 -->
+    <section class="card">
+      <h2 class="step-title"><span class="step-num">1</span> 사진 업로드</h2>
+      <label id="dropZone" class="drop-zone" for="fileInput">
+        <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" hidden />
+        <div id="dropPlaceholder" class="drop-placeholder">
+          <div class="drop-icon">📷</div>
+          <p><strong>클릭</strong>하거나 사진을 <strong>드래그</strong>해서 올려 주세요</p>
+          <p class="hint">PNG, JPG, WEBP · 최대 20MB</p>
+        </div>
+        <img id="uploadPreview" class="upload-preview" alt="업로드한 사진 미리보기" hidden />
+      </label>
+      <button id="resetBtn" class="btn btn-ghost" type="button" hidden>다른 사진 선택</button>
+    </section>
+
+    <!-- 2. 스타일 선택 -->
+    <section class="card">
+      <h2 class="step-title"><span class="step-num">2</span> 스타일 선택</h2>
+      <div id="styleGrid" class="style-grid" role="radiogroup" aria-label="변환 스타일"></div>
+      <label class="extra-prompt">
+        <span>추가 요청 (선택)</span>
+        <input id="extraPrompt" type="text" maxlength="200" placeholder="예: 배경을 바닷가로, 밝은 표정으로" />
+      </label>
+    </section>
+
+    <!-- 3. 변환 -->
+    <section class="card action-card">
+      <button id="transformBtn" class="btn btn-primary btn-lg" type="button" disabled>
+        <span class="btn-label">✨ 이미지 변환하기</span>
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+      <p id="statusMsg" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 4. 비교 & 5. 다운로드 -->
+    <section id="resultSection" class="card" hidden>
+      <div class="result-header">
+        <h2 class="step-title"><span class="step-num">3</span> 결과 비교</h2>
+        <div class="view-toggle" role="tablist">
+          <button class="toggle-btn active" data-view="slider" role="tab" type="button">슬라이더</button>
+          <button class="toggle-btn" data-view="side" role="tab" type="button">나란히 보기</button>
+        </div>
+      </div>
+
+      <!-- 슬라이더 비교 -->
+      <div id="sliderView" class="compare-slider">
+        <img id="sliderAfter" class="compare-img" alt="변환된 이미지" />
+        <div id="sliderBeforeWrap" class="compare-before">
+          <img id="sliderBefore" class="compare-img" alt="원본 이미지" />
+        </div>
+        <div id="sliderHandle" class="compare-handle"><span>⇆</span></div>
+        <span class="compare-label left">원본</span>
+        <span class="compare-label right">변환</span>
+        <input id="sliderRange" class="compare-range" type="range" min="0" max="100" value="50" aria-label="비교 슬라이더" />
+      </div>
+
+      <!-- 나란히 비교 -->
+      <div id="sideView" class="side-by-side" hidden>
+        <figure>
+          <img id="sideBefore" alt="원본 이미지" />
+          <figcaption>원본</figcaption>
+        </figure>
+        <figure>
+          <img id="sideAfter" alt="변환된 이미지" />
+          <figcaption id="sideAfterCaption">변환</figcaption>
+        </figure>
+      </div>
+
+      <div class="result-actions">
+        <button id="downloadBtn" class="btn btn-primary" type="button">⬇ 다운로드</button>
+        <button id="retryBtn" class="btn btn-ghost" type="button">다른 스타일로 다시 변환</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Powered by OpenAI Image API</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
